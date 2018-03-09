@@ -159,7 +159,7 @@ void LasReader::initializeLocal(PointTableRef table, MetadataNode& m)
 {
     try
     {
-        m_extraDims = LasUtils::parse(m_extraDimSpec, false);
+        m_extraDims = LasUtils::parse(m_extraDimSpec, true);
     }
     catch (const LasUtils::error& err)
     {
@@ -210,8 +210,7 @@ void LasReader::initializeLocal(PointTableRef table, MetadataNode& m)
         throwError("Unsupported LAS input point format: " +
             Utils::toString((int)m_header.pointFormat()) + ".");
 
-    if (m_header.versionAtLeast(1, 4))
-        readExtraBytesVlr();
+    readExtraBytesVlr();
     setSrs(m);
     MetadataNode forward = table.privateMetadata("lasforward");
     extractHeaderMetadata(forward, m);
